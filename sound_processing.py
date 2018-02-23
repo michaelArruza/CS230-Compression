@@ -16,12 +16,19 @@ def decode(filename):
 def make_DataSet():
     dataset = []
     for directory in os.listdir('fma_small'):
+        if int(directory) <=28:
+            continue
         for song in os.listdir('fma_small/' + directory):
+
             if song.endswith('.mp3'):
-                dataset += np.split(decode('fma_small/'+directory+'/'+song)[:1320000], 220000)
+                try:
+                    dataset += np.split(decode('fma_small/'+directory+'/'+song)[:1320000], 6)
+                except Exception as e:
+                    continue
+                print song
         np.save('Dataset/' + directory, np.stack(dataset))
         print np.stack(dataset).shape
         dataset = []
-make_DataSet()
+#make_DataSet()
 #converted =  convert_wav(f[1])
 #print(converted.shape)
