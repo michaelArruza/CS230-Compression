@@ -29,17 +29,17 @@ class Baseline(Model):
 	def encode(self):
 		self.model.add(Conv1D(64, kernel_size=100, strides=10,
 		                 activation='relu',
-		                 input_shape=(220000,1)))
+		                 input_shape=(10000,1)))
 		self.model.add(MaxPooling1D(pool_size=2, strides=2))
 		self.model.add(Conv1D(64, 100, strides = 1, activation='relu'))
 		self.model.add(MaxPooling1D(pool_size=2))
 		self.model.add(Flatten())
 
 	def decode(self):
-		self.model.add(Dense(10000, activation='relu'))
+		self.model.add(Dense(10000, activation='tanh'))
 		#model.add(Dense(50000, activation='relu'))
 		self.model.add(Reshape((10000,1)))
-		self.model.add(Conv1D(220, 10, strides = 10, activation='relu'))
+		self.model.add(Conv1D(10, 10, strides = 10, activation='tanh'))
 		#model.add(Conv1D(100, 2, strides = 2, activation='relu'))
 		self.model.add(Flatten())
 		#model.add(Dense(220000))

@@ -71,7 +71,6 @@ def save_prediction(pred, pred_path, frame_rate, ext=".wav"):
     write(pred_path, frame_rate, pred)
 
 def get_recent_weights_path(model_weights_dir):
-    files = filter(os.path.isfile, os.listdir(model_weights_dir))
     weight_files = filter(lambda x: "weights" in x, os.listdir(model_weights_dir))
-    weight_files.sort(key=lambda x: os.path.getmtime(x))
-    return files[0]
+    weight_files.sort(key=lambda x: os.path.getmtime(os.path.join(model_weights_dir, x)))
+    return weight_files[-1]

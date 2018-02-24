@@ -52,7 +52,7 @@ def simple_train(model):
             print track
             if track in white_list:
                 _, arr = read(os.path.join(config.simple_data_dir, track))
-                batch.append(np.array(arr))
+                batch.append(np.array(arr[:10000]))
     cur_batch = np.array(batch)
 
     print model.fit(np.expand_dims(cur_batch, axis=2), cur_batch, epochs=config.num_epochs)
@@ -60,21 +60,20 @@ def simple_train(model):
 
 def pred(model):
     model = model.model
-    X_test = np.matrix([decode('fma_small/024/024420.mp3')[:220000]])
+    X_test = np.matrix([decode('fma_small/024/024420.mp3')[:10000]])
     X_test = np.expand_dims(X_test, axis=2)
     preds = model.predict_on_batch(X_test)
     save_prediction(preds[0,:], config.model_predictions_path, config.frame_rate, ext=".wav")
 
 def simple_pred(model):
     model = model.model
-    test_track = os.path.join(config.simple_data_dir, "000021.wav")
+    test_track = os.path.join(config.simple_data_dir, "00021.wav")
     white_list = set(["00021.wav"])
     batch = []
     for track in os.listdir(config.simple_data_dir):
-            print track
             if track in white_list:
                 _, arr = read(os.path.join(config.simple_data_dir, track))
-                batch.append(np.array(arr))
+                batch.append(np.array(arr)[:10000])
     cur_batch = np.array(batch)
     x = np.expand_dims(cur_batch, axis=2)
     preds = model.predict_on_batch(x)
@@ -89,16 +88,16 @@ def main():
         # Can train with existing weights (if config.restart = True, will use most recent by default)
         weights_path = None
         if not config.restart:
-            weights_path = get_recent_weights_path(config.model_save_dir)
+            weights_path = os.path.join(config.model_save_dir, get_recent_weights_path(config.model_save_dir))
         model.build(weights_path)
         # train(model)
         simple_train(model)
         if config.save_model:
             save_model(model, config.model_save_path, config.model_weights_save_path, ext=".h5")
-    if config.pred: 
+    else: 
         # If we only care about predicting!
         # Make sure there are trained weights (most recent will be used by default)
-        weights_path = get_recent_weights_path(config.model_save_dir)
+        weights_path = os.path.join(config.model_save_dir, get_recent_weights_path(config.model_save_dir))
         model.build(weights_path)
         # pred(model)
         simple_pred(model)
