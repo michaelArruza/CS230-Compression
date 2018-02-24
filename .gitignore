@@ -1,0 +1,8 @@
+models/
+dataset/
+fma_small/
+predictions/
+simple_dataset/
+*.pyc
+fma_small.zip
+.DS_Store
