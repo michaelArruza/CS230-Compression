@@ -60,32 +60,6 @@ def make_dataset():
             # Skip irrelevant directories (Looking at you .DS_Store)
             continue
 
-def make_disjoint_dataset():
-    """
-    Writes each track into 15 separate 2-second files.
-    To make loading and training on batches more memory efficient
-    """
-    for directory in os.listdir('fma_small'):
-        try:
-            if int(directory) <= 28:
-                continue
-            for song in os.listdir('fma_small/' + directory):
-                dataset = []
-                if song.endswith('.mp3'):
-                    try:
-                        dataset += np.split(decode('fma_small/'+directory+'/'+song)[:1320000], 6)
-                    except Exception as e:
-                        continue
-                    print song
-                for i, chunk in enumerate(dataset):
-                    chunk_name = "{}_{}_{}".format(directory, song.split('.')[0], i)
-                    np.save(os.path.join(config.data_dir, chunk_name), chunk)
-            # print np.stack(dataset).shape
-            dataset = []
-        except ValueError:
-            # Skip irrelevant directories (Looking at you .DS_Store)
-            continue
-
 def make_simple_dataset():
     # Make .wav dataset from first directory in fma_small dataset
     dataset = []
