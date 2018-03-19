@@ -10,7 +10,7 @@ import os
 
 import config
 import models
-from util import decode, save_model, save_prediction, get_recent_weights_path
+from util import decode, save_model, save_prediction, get_recent_weights_path, evaluate_model
 import cPickle
 
 def load_data():
@@ -121,6 +121,11 @@ def main():
         model.build(weights_path)
         # pred(model)
         pred(model)
+    if config.evaluate:
+        weights_path = config.model_save_dir+'/'+get_recent_weights_path(config.model_save_dir)
+        model.build(weights_path)
+        evaluate_model(model, "fma_small/029/")
+
 
 if __name__ == '__main__':
     main()
