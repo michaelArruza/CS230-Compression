@@ -54,7 +54,7 @@ def train(model):
             cur_batch=bigData[i:i+40,:]
             losses.append(model.train_on_batch(np.expand_dims(cur_batch,axis=2),cur_batch[:,:]))
             print epoch,i, losses[-1]
-    cPickle.dump(losses,open('loss_data','w'))
+    cPickle.dump(losses,open('loss_data_2','w'))
 
 def simple_train(model):
     """
@@ -75,7 +75,7 @@ def simple_train(model):
 
 def pred(model):
     model = model.model
-    X_test = decode('fma_small/054/054039.mp3')
+    X_test = decode('fma_small/005/005159.mp3')
     print X_test.shape
     X_test = np.matrix(np.split(X_test[:1320000],30))
     X_test = 10.0*np.expand_dims(X_test, axis=2)
@@ -104,7 +104,7 @@ def main():
     if config.model == 'Baseline':
         model = models.Baseline()
     else:
-        model = models.Muzip()
+        model = models.Muzip3()
     if config.train:
         # Can train with existing weights (if config.restart = True, will use most recent by default)
         weights_path = None

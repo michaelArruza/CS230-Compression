@@ -101,3 +101,117 @@ class Muzip(Model):
               metrics=[keras.metrics.mae,keras.metrics.mse])
 		if weights_path:
 			self.model.load_weights(weights_path)
+
+class Muzip2(Model):
+	def __init__(self):
+		Model.__init__(self, Sequential)
+
+	def encode(self):
+		self.model.add(Conv1D(500, kernel_size=500, strides=500,
+		                 activation='tanh',
+		                 input_shape=(44000,1)))
+		#self.model.add(MaxPooling1D(pool_size=2, strides=2))
+		self.model.add(Conv1D(300, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(125, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(400, 20, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(250, 1, strides = 1, activation='tanh'))
+		#self.model.add(MaxPooling1D(pool_size=2))
+		#self.model.add(Conv1D(70, 100, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(250, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(50, 1, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(40, 1, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(1, 1, strides = 1, activation='relu'))
+		#self.model.add(Flatten())
+
+	def decode(self):
+		#self.model.add(Reshape((-1,1)))
+		#self.model.add(Conv1D(250, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(500, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(125, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(300, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(400, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(800, 1, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(600, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(750, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(500, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(500, 1, strides = 1, activation='linear'))
+		self.model.add(Flatten())
+		#self.model.add(Reshape((-1,1)))
+		#self.model.add(Conv1D(1000, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(1, 500, strides = 1, activation='linear', padding='same'))
+		#self.model.add(Flatten())
+		#self.model.add(Conv1D(4, 200, strides = 1, activation='relu'))
+
+		#self.model.add(Reshape((-1,1)))
+		#self.model.add(Conv1D(1, 2651, strides = 1, activation='tanh'))
+		#self.model.add(Flatten())
+		#self.model.add(Dense(44000))
+		print self.model.summary()
+
+
+	def build(self, weights_path):
+		self.encode()
+		self.decode()
+		self.model.compile(loss=keras.losses.mean_squared_error,
+              optimizer=keras.optimizers.Adam(),
+              metrics=[keras.metrics.mae,keras.metrics.mse])
+		if weights_path:
+			self.model.load_weights(weights_path)
+
+class Muzip3(Model):
+	def __init__(self):
+		Model.__init__(self, Sequential)
+
+	def encode(self):
+		self.model.add(Conv1D(200, kernel_size=200, strides=200,
+		                 activation='tanh',
+		                 input_shape=(44000,1)))
+		#self.model.add(MaxPooling1D(pool_size=2, strides=2))
+		self.model.add(Conv1D(150, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(100, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(50, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(400, 20, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(250, 1, strides = 1, activation='tanh'))
+		#self.model.add(MaxPooling1D(pool_size=2))
+		#self.model.add(Conv1D(70, 100, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(250, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(50, 1, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(40, 1, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(1, 1, strides = 1, activation='relu'))
+		#self.model.add(Flatten())
+
+	def decode(self):
+		#self.model.add(Reshape((-1,1)))
+		#self.model.add(Conv1D(250, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(500, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(50, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(100, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(400, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(800, 1, strides = 1, activation='relu'))
+		#self.model.add(Conv1D(600, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(750, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(150, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(200, 1, strides = 1, activation='tanh'))
+		self.model.add(Conv1D(200, 1, strides = 1, activation='linear'))
+		self.model.add(Flatten())
+		#self.model.add(Reshape((-1,1)))
+		#self.model.add(Conv1D(1000, 1, strides = 1, activation='tanh'))
+		#self.model.add(Conv1D(1, 500, strides = 1, activation='linear', padding='same'))
+		#self.model.add(Flatten())
+		#self.model.add(Conv1D(4, 200, strides = 1, activation='relu'))
+
+		#self.model.add(Reshape((-1,1)))
+		#self.model.add(Conv1D(1, 2651, strides = 1, activation='tanh'))
+		#self.model.add(Flatten())
+		#self.model.add(Dense(44000))
+		print self.model.summary()
+
+
+	def build(self, weights_path):
+		self.encode()
+		self.decode()
+		self.model.compile(loss=keras.losses.mean_squared_error,
+              optimizer=keras.optimizers.Adam(),
+              metrics=[keras.metrics.mae,keras.metrics.mse])
+		if weights_path:
+			self.model.load_weights(weights_path)
