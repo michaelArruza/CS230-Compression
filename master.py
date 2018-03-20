@@ -10,7 +10,7 @@ import os
 
 import config
 import models
-from util import decode, save_model, save_prediction, get_recent_weights_path
+from util import decode, save_model, save_prediction, get_recent_weights_path, evaluate_model
 import cPickle
 
 def load_data():
@@ -67,7 +67,7 @@ def simple_train(model):
             print track
             if track in white_list:
                 _, arr = read(os.path.join(config.simple_data_dir, track))
-                batch.append(np.array(arr))
+                batch.append(np.array(arr[:10000]))
     cur_batch = np.array(batch)
 
     print model.fit(np.expand_dims(cur_batch, axis=2), cur_batch, epochs=config.num_epochs)
@@ -85,14 +85,13 @@ def pred(model):
 
 def simple_pred(model):
     model = model.model
-    test_track = os.path.join(config.simple_data_dir, "000021.wav")
+    test_track = os.path.join(config.simple_data_dir, "00021.wav")
     white_list = set(["00021.wav"])
     batch = []
     for track in os.listdir(config.simple_data_dir):
-            print track
             if track in white_list:
                 _, arr = read(os.path.join(config.simple_data_dir, track))
-                batch.append(np.array(arr))
+                batch.append(np.array(arr)[:10000])
     cur_batch = np.array(batch)
     x = np.expand_dims(cur_batch, axis=2)
     preds = model.predict_on_batch(x)
@@ -109,7 +108,7 @@ def main():
         # Can train with existing weights (if config.restart = True, will use most recent by default)
         weights_path = None
         if not config.restart:
-            weights_path = get_recent_weights_path(config.model_save_dir)
+            weights_path = os.path.join(config.model_save_dir, get_recent_weights_path(config.model_save_dir))
         model.build(weights_path)
         train(model)
         #simple_train(model)
@@ -122,6 +121,11 @@ def main():
         model.build(weights_path)
         # pred(model)
         pred(model)
+    if config.evaluate:
+        weights_path = config.model_save_dir+'/'+get_recent_weights_path(config.model_save_dir)
+        model.build(weights_path)
+        evaluate_model(model, "fma_small/029/")
+
 
 if __name__ == '__main__':
     main()

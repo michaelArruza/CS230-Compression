@@ -18,7 +18,8 @@ model_predictions_path = os.path.join(model_predictions_dir, model_name)
 
 # Model settings and params
 train = False
-pred = True
+pred = False
+evaluate = True
 num_epochs = 10
 
 # Training settings and params
