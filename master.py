@@ -102,6 +102,12 @@ def main():
     model = None
     if config.model == 'Baseline':
         model = models.Baseline()
+    elif config.model == "Muzip":
+        model = models.Muzip()
+    elif config.model == "Muzip2":
+        model = models.Muzip2()
+    elif config.model == "Muzip3":
+        model = models.Muzip3()
     else:
         model = models.Muzip3()
     if config.train:
@@ -124,7 +130,7 @@ def main():
     if config.evaluate:
         weights_path = config.model_save_dir+'/'+get_recent_weights_path(config.model_save_dir)
         model.build(weights_path)
-        evaluate_model(model, "fma_small/029/")
+        evaluate_model(model, "test/")
 
 
 if __name__ == '__main__':

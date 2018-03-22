@@ -7,8 +7,8 @@ save_dir = 'models/'
 simple_data_dir = "simple_dataset/"
 
 # Model-specific names and paths
-model = 'Muzip'
-experiment = 'Muzip_1'
+model = 'Muzip3'
+experiment = 'Muzip3_1'
 model_name = "{}_{}".format(model, experiment)
 model_save_dir = os.path.join(save_dir, model)
 model_save_path = os.path.join(model_save_dir, model_name)
